@@ -1,30 +1,38 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
-WORKDIR /src
-
 ARG RID=linux-musl-x64
 
-RUN apk add --no-cache clang build-base icu-libs zlib-dev
+RUN apk add --no-cache clang build-base zlib-dev
 
-COPY *.csproj ./
+WORKDIR /src
+
+COPY *.csproj .
 RUN dotnet restore -r $RID
 
-COPY . ./
+COPY . .
 
-RUN dotnet publish -c Release -r $RID -o /app/publish \
+RUN dotnet publish -c Release -r $RID -o /out \
     -p:PublishAot=true \
     -p:SelfContained=true \
+    -p:InvariantGlobalization=true \
     -p:StripSymbols=true \
-    -p:DebugType=None
+    -p:DebugType=None \
+    -p:AssemblyName=Application
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-alpine AS runtime
+
+
+
+
+
+FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-alpine
 WORKDIR /app
 
-RUN apk add --no-cache ffmpeg libmsquic icu-libs
+RUN apk add --no-cache ffmpeg
 
-COPY --from=build /app/publish ./
-RUN chmod +x TwitchRecorderApi
+COPY --from=build /out ./
 
 EXPOSE 8080
 ENV DOTNET_URLS=http://+:8080
 
-ENTRYPOINT ["./TwitchRecorderApi"]
+USER root
+
+ENTRYPOINT ["./Application"]

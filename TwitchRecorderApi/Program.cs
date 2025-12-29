@@ -30,7 +30,6 @@ services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
 });
 services.AddOpenApi();
-services.AddSingleton<RecorderService>();
 services.AddSingleton<TwitchApiService>();
 services.AddSingleton<KickApiService>();
 
