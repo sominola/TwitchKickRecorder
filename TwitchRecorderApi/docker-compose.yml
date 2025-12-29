@@ -1,0 +1,11 @@
+services:
+  twitch_recorder_api:
+    build: .
+    container_name: twitch_recorder_api
+    ports:
+      - "5050:8080"
+    volumes:
+      - C:/output:/app/output
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    restart: unless-stopped

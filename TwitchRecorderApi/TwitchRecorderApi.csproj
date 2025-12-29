@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>preview</LangVersion>
+        <PublishAot>true</PublishAot>
+        <Http3Support>true</Http3Support>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1" />
+        <PackageReference Include="FFMpegCore" Version="5.4.0" />
+        <PackageReference Include="Scalar.AspNetCore" Version="2.11.10" />
+    </ItemGroup>
+
+</Project>
